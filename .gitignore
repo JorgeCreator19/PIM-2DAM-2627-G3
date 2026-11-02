@@ -1,0 +1,50 @@
+# Hidden data
+.env
+*.env.local
+*.jks
+*.keystore
+key.properties
+*.p12
+*.mobileprovision
+*.pem
+
+# Sistema operativo e IDEs
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# Flutter / Dart (app/)
+app/.dart_tool/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/build/
+app/coverage/
+app/**/Generated.xcconfig
+app/**/Flutter/ephemeral/
+app/ios/Pods/
+app/macos/Pods/
+app/android/.gradle/
+app/android/local.properties
+app/android/app/release/
+
+# Rust (core/)
+core/target/
+target/
+
+# C++ (server/)
+server/build/
+server/out/
+server/vcpkg_installed/
+server/CMakeUserPresets.json
+server/compile_commands.json
+
+# Modelos grandes (estos se descargan con un script)
+app/assets/models/*.onnx
+
+# Datos locales de Docker y copias
+infra/backups/
+*.sql.gz

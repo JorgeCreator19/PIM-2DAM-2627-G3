@@ -1,0 +1,69 @@
+# Servicios de desarrollo de Vapor. Se lanza desde la RAÍZ del repo:
+#   docker compose --env-file .env -f infra/docker-compose.yml up -d
+
+# El servidor C++ no va aquí, este se compila y se depura en el IDE.
+
+# En el servidor de pruebas / demo se añade Caddy (HTTPS + web):
+#   docker compose --env-file .env -f infra/docker-compose.yml --profile demo up -d
+
+name: vapor
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: UTC
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
+    ports: ["127.0.0.1:3306:3306"]
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # Las migraciones se ejecutan solas la primera vez que se crea el volumen
+      - ../server/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  seaweedfs:
+    # Almacén de objetos con API S3 para los blobs cifrados (imágenes y archivos).
+    # En desarrollo va sin autenticación, en la demo se configura -s3.config con claves.
+    image: chrislusf/seaweedfs:latest
+    restart: unless-stopped
+    command: ["server", "-s3", "-dir=/data"]
+    ports: ["127.0.0.1:8333:8333"]
+    volumes:
+      - seaweed-data:/data
+
+  mailpit:
+    # Recoge todos los correos que envía el servidor sin mandarlos de verdad.
+    # Bandeja web: http://localhost:8025
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+
+  caddy:
+    # Solo en el servidor de pruebas y en la demo (perfil "demo").
+    profiles: ["demo"]
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      VAPOR_DOMAIN: ${VAPOR_DOMAIN}
+    ports: ["80:80", "443:443"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../app/build/web:/srv/web:ro
+      - caddy-data:/data
+
+volumes:
+  mysql-data:
+  seaweed-data:
+  caddy-data:

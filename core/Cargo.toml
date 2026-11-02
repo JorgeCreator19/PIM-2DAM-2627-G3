@@ -1,0 +1,39 @@
+[package]
+name = "vapor_core"
+version = "0.1.0"
+edition = "2024"
+description = "Núcleo Rust de Vapor: cifrado E2EE (vodozemac/Olm), cifrado de archivos y clasificador +18"
+publish = false
+
+[lib]
+# cdylib = librería dinámica (Android, Windows, Linux) - staticlib = estática (iOS, macOS)
+# rlib = librería Rust normal, para que funcionen los tests de tests/
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+# Puente con Flutter. La versión DEBE coincidir con la de flutter_rust_bridge en
+# app/pubspec.yaml y con la de flutter_rust_bridge_codegen instalada (cargo install).
+flutter_rust_bridge = "=2.13.0"
+
+# Errores y datos
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Cifrado de extremo a extremo (Olm: Double Ratchet + triple DH)
+vodozemac = "0.11"
+
+# Cifrado de archivos e imágenes (XChaCha20-Poly1305 + SHA-256)
+chacha20poly1305 = "0.11"
+sha2 = "0.11"
+rand = "0.10"
+
+# Moderación +18 en el dispositivo (modelo ONNX)
+tract-onnx = "0.23"
+image = { version = "0.25", default-features = false, features = ["png", "jpg", "jpeg", "webp"] }
+
+[profile.release]
+# Binario más pequeño y rápido para móvil
+lto = true
+codegen-units = 1
+strip = true

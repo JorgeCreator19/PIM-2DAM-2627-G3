@@ -1,0 +1,24 @@
+# Caddy delante del servidor C++ en el servidor de pruebas y en la demo.
+# - Pone HTTPS/WSS con certificado automático (Let's Encrypt) y solo TLS 1.3.
+# - Reenvía la API y el WebSocket al servidor C++ (que habla en claro, solo en la máquina).
+# - Sirve la versión web de la app con las cabeceras COOP/COEP que necesita Rust -> WebAssembly.
+
+{$VAPOR_DOMAIN} {
+	tls {
+		protocols tls1.3
+	}
+	encode zstd gzip
+
+	@api path /health /ws /auth/* /me /me/* /users/* /friends /friends/* /blocks /blocks/* /devices /devices/* /files /files/*
+	handle @api {
+		reverse_proxy host.docker.internal:8080
+	}
+
+	handle {
+		root * /srv/web
+		header Cross-Origin-Opener-Policy "same-origin"
+		header Cross-Origin-Embedder-Policy "require-corp"
+		try_files {path} /index.html
+		file_server
+	}
+}

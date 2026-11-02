@@ -1,0 +1,23 @@
+# GitHub pide revisión automáticamente al revisor de cada carpeta.
+# (con @ delante) y descomenta las líneas que los usan.
+
+# Por defecto, cualquier cambio lo revisa Jorge
+*                    @JorgeCreator19
+
+# Servidor, BD, escritorio, infra y CI -> dueño Jorge, revisa Iker
+/server/           @ikerm1
+/infra/            @ikerm1
+/.github/          @ikerm1
+
+# Núcleo Rust -> dueño Iker, revisa Jorge
+/core/               @JorgeCreator19
+
+# Interfaz Flutter -> dueño Matías, revisa Iker
+/app/lib/          @ikerm1
+
+# Configuración móvil -> dueño Iker, revisa Matías
+/app/android/      @Mati-papayadev
+/app/ios/          @Mati-papayadev
+
+# Web informativa -> Matías
+/site/             @Mati-papayadev
