@@ -1,0 +1,134 @@
+# CI de Vapor: se ejecuta en cada pull request y en cada push a main.
+# Cada job solo corre si su carpeta existe y si ha cambiado algo en ella,
+# para no gastar minutos de GitHub Actions.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Permisos mínimos. paths-filter necesita leer la lista de archivos del PR.
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      server: ${{ steps.filter.outputs.server == 'true' && steps.exists.outputs.server == 'true' }}
+      core: ${{ steps.filter.outputs.core == 'true' && steps.exists.outputs.core == 'true' }}
+      app: ${{ steps.filter.outputs.app == 'true' && steps.exists.outputs.app == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Comprobar qué partes existen ya
+        id: exists
+        run: |
+          echo "server=$([ -f server/src/main.cpp ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "core=$([ -f core/Cargo.toml ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "app=$([ -f app/pubspec.yaml ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            server: ['server/**', '.github/workflows/ci.yml']
+            core:   ['core/**', '.github/workflows/ci.yml']
+            app:    ['app/**', 'core/**', '.github/workflows/ci.yml']
+
+  server:
+    needs: changes
+    if: needs.changes.outputs.server == 'true'
+    runs-on: ubuntu-latest
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar Ninja y autotools (libsodium los necesita en Linux)
+        run: sudo apt-get update && sudo apt-get install -y ninja-build autoconf autoconf-archive automake libtool pkg-config
+      - name: Caché de librerías compiladas por vcpkg
+        uses: actions/cache@v4
+        with:
+          path: vcpkg-cache
+          key: vcpkg-${{ runner.os }}-${{ hashFiles('server/vcpkg.json') }}
+          restore-keys: vcpkg-${{ runner.os }}-
+      - name: Descargar vcpkg
+        run: |
+          mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE"
+          git clone https://github.com/microsoft/vcpkg.git "$VCPKG_ROOT"
+          "$VCPKG_ROOT/bootstrap-vcpkg.sh" -disableMetrics
+      - name: Configurar (CMake + vcpkg)
+        working-directory: server
+        run: cmake --preset ci
+      - name: Compilar
+        working-directory: server
+        run: cmake --build --preset ci
+      - name: Tests
+        working-directory: server
+        run: ctest --preset ci
+
+  core:
+    needs: changes
+    if: needs.changes.outputs.core == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: core
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test
+
+  app:
+    needs: changes
+    if: needs.changes.outputs.app == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+
+  android:
+    # Solo al fusionar en main: genera un APK de prueba descargable.
+    needs: [changes, app]
+    if: github.event_name == 'push' && needs.changes.outputs.app == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Compilar APK
+        working-directory: app
+        run: flutter build apk --debug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vapor-android-debug
+          path: app/build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7

@@ -1,0 +1,105 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="arquitectura-vapor" name="Arquitectura Vapor">
+    <mxGraphModel dx="851" dy="474" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="840" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;strokeWidth=2;fillColor=#F7FAFD;strokeColor=#2D6A9F;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontStyle=1;fontSize=13;fontColor=#2D6A9F;" value="CLIENTE - una sola base de código Flutter (Android - iOS - Web - Windows - macOS - Linux)" vertex="1">
+          <mxGeometry height="175" width="800" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="c2" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#EAF1FA;strokeColor=#2D6A9F;" value="&lt;b&gt;Interfaz Flutter / Dart&lt;/b&gt;&lt;br&gt;arquitectura Bloc&lt;br&gt;puente: flutter_rust_bridge" vertex="1">
+          <mxGeometry height="105" width="220" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="c2" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#FFF4D6;strokeColor=#B7791F;" value="&lt;b&gt;Núcleo Rust&lt;/b&gt;&lt;br&gt;cifrado E2EE (Signal / MLS)&lt;br&gt;clasificador +18 en local (ONNX)&lt;br&gt;gestión de claves" vertex="1">
+          <mxGeometry height="105" width="270" x="290" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="c2" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#E8F5E9;strokeColor=#2E7D32;" value="&lt;b&gt;SQLite + SQLCipher&lt;/b&gt;&lt;br&gt;BBDD local cifrada&lt;br&gt;(mensajes y claves)" vertex="1">
+          <mxGeometry height="105" width="170" x="610" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#44546A;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="c4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" edge="1" parent="1" source="c4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#44546A;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="c5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;strokeWidth=2;fillColor=#F7FAFD;strokeColor=#2D6A9F;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontStyle=1;fontSize=13;fontColor=#2D6A9F;" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(45, 106, 159), rgb(109, 161, 207));&quot;&gt;BACKEND - servidor C++ con sockets asíncronos&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="175" width="800" x="20" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="c8" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#EAF1FA;strokeColor=#2D6A9F;" value="&lt;b&gt;Pasarela WebSocket&lt;/b&gt;&lt;br&gt;TLS 1.3&lt;br&gt;mensajes cifrados&lt;br&gt;y presencia" vertex="1">
+          <mxGeometry height="105" width="175" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" parent="c8" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#EAF1FA;strokeColor=#2D6A9F;" value="&lt;b&gt;API REST (HTTPS)&lt;/b&gt;&lt;br&gt;cuentas, roles, eventos,&lt;br&gt;denuncias, vinculación" vertex="1">
+          <mxGeometry height="105" width="175" x="215" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" parent="c8" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#EAF1FA;strokeColor=#2D6A9F;" value="&lt;b&gt;Señalización WebRTC&lt;/b&gt;&lt;br&gt;llamadas y pantalla&lt;br&gt;(medios P2P / coturn)" vertex="1">
+          <mxGeometry height="105" width="175" x="410" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" parent="c8" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#EAF1FA;strokeColor=#2D6A9F;" value="&lt;b&gt;Moderación servidor&lt;/b&gt;&lt;br&gt;solo contenido no cifrado&lt;br&gt;(avatares, banners, canales)" vertex="1">
+          <mxGeometry height="105" width="175" x="605" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;strokeWidth=2;fillColor=#F7FAFD;strokeColor=#2E7D32;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontStyle=1;fontSize=13;fontColor=#2E7D32;" value="DATOS" vertex="1">
+          <mxGeometry height="170" width="390" x="20" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="c14" parent="c13" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#E8F5E9;strokeColor=#2E7D32;" value="&lt;b&gt;MySQL 8.4 LTS&lt;/b&gt;&lt;br&gt;usuarios, roles, eventos&lt;br&gt;cola de mensajes cifrados" vertex="1">
+          <mxGeometry height="105" width="170" x="20" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" parent="c13" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#E8F5E9;strokeColor=#2E7D32;" value="&lt;b&gt;Almacén S3 (SeaweedFS)&lt;/b&gt;&lt;br&gt;archivos, imágenes y vídeos&lt;br&gt;cifrados (URL prefirmadas)" vertex="1">
+          <mxGeometry height="105" width="170" x="210" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;strokeWidth=2;fillColor=#F7FAFD;strokeColor=#8E44AD;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontStyle=1;fontSize=13;fontColor=#8E44AD;" value="SERVICIOS EXTERNOS" vertex="1">
+          <mxGeometry height="170" width="390" x="430" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" parent="c16" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#F3E8F9;strokeColor=#8E44AD;" value="&lt;b&gt;OAuth2 / OpenID&lt;/b&gt;&lt;br&gt;Discord - Twitch - Steam…" vertex="1">
+          <mxGeometry height="55" width="175" x="15" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" parent="c16" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#F3E8F9;strokeColor=#8E44AD;" value="&lt;b&gt;Push (FCM / APNs)&lt;/b&gt;&lt;br&gt;notificaciones" vertex="1">
+          <mxGeometry height="55" width="175" x="200" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" parent="c16" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#F3E8F9;strokeColor=#8E44AD;" value="&lt;b&gt;coturn (STUN / TURN)&lt;/b&gt;&lt;br&gt;llamadas tras NAT" vertex="1">
+          <mxGeometry height="55" width="175" x="15" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" parent="c16" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=12;fontColor=#1B2B3C;fillColor=#F3E8F9;strokeColor=#8E44AD;" value="&lt;b&gt;Proveedor de GIFs&lt;/b&gt;&lt;br&gt;vía proxy del servidor" vertex="1">
+          <mxGeometry height="55" width="175" x="200" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#44546A;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.25;exitY=1;entryX=0.5;entryY=0;" target="c9" value="WebSocket + TLS 1.3 (solo texto cifrado)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#44546A;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.602;exitY=0.998;entryX=0.5;entryY=0;exitDx=0;exitDy=0;exitPerimeter=0;" value="HTTPS / REST">
+          <mxGeometry relative="1" x="0.0338" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="172.4" y="245" />
+              <mxPoint x="322.5" y="245" />
+            </Array>
+            <mxPoint x="172" y="170" as="sourcePoint" />
+            <mxPoint x="322.5" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c23" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#44546A;fontSize=11;labelBackgroundColor=#FFFFFF;dashed=1;exitX=0.9;exitY=1;entryX=0.5;entryY=0;" target="c11" value="señalización de llamadas">
+          <mxGeometry relative="1" x="0.0362" as="geometry">
+            <Array as="points">
+              <mxPoint x="230" y="175" />
+              <mxPoint x="230" y="230" />
+              <mxPoint x="517.5" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c24" edge="1" parent="1" source="c9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#44546A;fontSize=11;labelBackgroundColor=#FFFFFF;strokeColor=#2E7D32;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="c14" value="lee / escribe">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c25" edge="1" parent="1" source="c10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#44546A;fontSize=11;labelBackgroundColor=#FFFFFF;strokeColor=#2E7D32;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="c15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c26" edge="1" parent="1" source="c11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#44546A;fontSize=11;labelBackgroundColor=#FFFFFF;strokeColor=#8E44AD;exitX=0.5;exitY=1;entryX=0.35;entryY=0;" target="c16" value="OAuth - push - TURN - GIF">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" parent="1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;" value="&lt;b&gt;Leyenda:&lt;/b&gt; &lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(153, 255, 204));&quot;&gt;línea continua&lt;/span&gt; = comunicación principal | &lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(102, 255, 255));&quot;&gt;línea discontinua&lt;/span&gt; = señalización de llamadas | naranja = &lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(153, 153, 255));&quot;&gt;lógica sensible&lt;/span&gt; (cifrado y moderación) en el cliente." vertex="1">
+          <mxGeometry height="40" width="800" x="20" y="718" as="geometry" />
+        </mxCell>
+        <mxCell id="c28" parent="1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=top;fontColor=#33414F;" value="&lt;i&gt;El servidor solo ve texto cifrado y metadatos (quién, cuándo, tamaño), este nunca ve el contenido de los mensajes.&lt;/i&gt;" vertex="1">
+          <mxGeometry height="30" width="800" x="20" y="740" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,8 @@
+{
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.eol": "\n",
+  "[markdown]": { "files.trimTrailingWhitespace": false },
+  "editor.formatOnSave": true,
+  "rust-analyzer.check.command": "clippy"
+}

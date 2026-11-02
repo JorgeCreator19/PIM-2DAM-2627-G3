@@ -1,0 +1,18 @@
+# Finales de línea coherentes entre Windows, Linux y macOS
+* text=auto eol=lf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Formatos binarios
+*.png binary
+*.jpg binary
+*.ico binary
+*.onnx binary
+*.drawio text
+*.xlsx binary
+*.docx binary
+*.pdf binary
+
+# Código generado --> GitHub lo oculta en los diffs de los PR
+app/lib/src/rust/** linguist-generated=true
+core/src/frb_generated.rs linguist-generated=true
