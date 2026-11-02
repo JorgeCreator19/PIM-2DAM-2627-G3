@@ -49,8 +49,8 @@ jobs:
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
     steps:
       - uses: actions/checkout@v4
-      - name: Instalar Ninja
-        run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Instalar Ninja y autotools (libsodium los necesita en Linux)
+        run: sudo apt-get update && sudo apt-get install -y ninja-build autoconf autoconf-archive automake libtool pkg-config
       - name: Caché de librerías compiladas por vcpkg
         uses: actions/cache@v4
         with:

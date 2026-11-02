@@ -15,6 +15,7 @@ Thumbs.db
 *.iml
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 *.swp
 
 # Flutter / Dart (app/)

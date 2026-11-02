@@ -7,4 +7,4 @@ cada vez que cambia en `main`. Activarlo una vez: Settings -> Pages -> Source: *
 No confundir con la **versión web de la app**, que es Flutter (`app/`, `flutter build web`)
 y se sirve desde el servidor de demo con Caddy.
 
-Estructura prevista: `index.html`, `downloads.html`, `css/`, `js/`, `privacidad.html`, `assets/` (logo, capturas, etc).
+Estructura prevista: `index.html`, `downloads.html`, `css/`, `js/`, `privacy.html`, `assets/` (logo, capturas, etc).

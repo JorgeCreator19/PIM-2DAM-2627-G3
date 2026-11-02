@@ -7,10 +7,11 @@ Proyecto Intermodular de 2.º DAM - IES El Pla (Alicante)
 
 Grupo **Fruit Salad**:
 Jorge Ferrando, Matías Acosta e Iker Mollá  
+
 Tutor: Vicente Jesús Santonja Ivorra.
 
 | Parte | Tecnología | Dueño |
-|-------|------------|-------|
+| ------- | ------------ | ------- |
 | App (Android, iOS, web, Windows, macOS, Linux) | Flutter + Bloc | Matías (interfaz), Iker (móvil), Jorge (escritorio) |
 | Núcleo de cifrado y moderación | Rust (vodozemac, tract-onnx) | Iker |
 | Servidor | C++20 (Boost.Beast, Boost.MySQL) | Jorge |

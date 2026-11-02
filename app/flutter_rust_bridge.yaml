@@ -1,0 +1,5 @@
+# Configuración de flutter_rust_bridge (dueño del puente: Iker).
+# El núcleo Rust NO está dentro de app/: está en ../core (raíz del repo).
+rust_input: crate::api        # se genera código para todo lo público de core/src/api/
+rust_root: ../core/
+dart_output: lib/src/rust     # código Dart generado: no se edita a mano
