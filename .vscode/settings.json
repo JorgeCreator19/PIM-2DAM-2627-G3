@@ -2,7 +2,10 @@
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "files.eol": "\n",
-  "[markdown]": { "files.trimTrailingWhitespace": false },
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
   "editor.formatOnSave": true,
-  "rust-analyzer.check.command": "clippy"
+  "rust-analyzer.check.command": "clippy",
+  "cmake.sourceDirectory": "C:/Users/Jorgito/Desktop/PIM-2DAM-2627-G3/server"
 }
