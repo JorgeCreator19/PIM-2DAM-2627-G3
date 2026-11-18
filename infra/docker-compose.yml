@@ -19,7 +19,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: UTC
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
-    ports: ["127.0.0.1:3306:3306"]
+    ports: ["127.0.0.1:${MYSQL_PORT:-3306}:3306"]
     volumes:
       - mysql-data:/var/lib/mysql
       # Las migraciones se ejecutan solas la primera vez que se crea el volumen
