@@ -1,6 +1,6 @@
 # Vapor
 
-App de mensajería multiplataforma para gaming y e-sports, con **cifrado de extremo a extremo**
+App de mensajería multiplataforma para gaming y E-sports, con **cifrado de extremo a extremo**
 en todos los mensajes y **bloqueo de imágenes +18 en el dispositivo**.
 
 Proyecto Intermodular de 2.º DAM - IES El Pla (Alicante)
